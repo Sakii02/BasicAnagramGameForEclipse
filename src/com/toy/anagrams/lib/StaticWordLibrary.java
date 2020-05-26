@@ -31,6 +31,10 @@
 
 package com.toy.anagrams.lib;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 /**
  * Implementation of the logic for the Anagram Game application.
@@ -162,9 +166,27 @@ final class StaticWordLibrary extends WordLibrary {
     	String str = WORD_LIST[idx];
         char[] chars = str.toCharArray();
         Arrays.sort(chars);
+        shuffle(chars);
+        
         String str2 = new String(chars);
         return str2;
 
+    }
+    public static void shuffle(char[] chars) {
+        // 配列が空か１要素ならシャッフルしようがないので、そのままreturn
+        if (chars.length <= 1) {
+            return;
+        }
+
+        // Fisher–Yates shuffle
+        Random rnd = ThreadLocalRandom.current();
+        for (int i = chars.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            // 要素入れ替え(swap)
+            char tmp = chars[index];
+            chars[index] = chars[i];
+            chars[i] = tmp;
+        }
     }
 
     /**
